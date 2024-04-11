@@ -19,5 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "DateRangePickerCustom2"
-include ':app'
+rootProject.name = "daterangepickercustom"
+include(":app")
+ 

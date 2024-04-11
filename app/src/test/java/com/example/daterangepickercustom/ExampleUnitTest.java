@@ -1,4 +1,4 @@
-package com.example.daterangepickercustom2;
+package com.example.daterangepickercustom;
 
 import org.junit.Test;
 

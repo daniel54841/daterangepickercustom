@@ -1,9 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.DateRangePickerCustom2" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-    </style>
+  <!-- Base application theme. -->
+  <style name="Base.Theme.Daterangepickercustom" parent="Theme.Material3.DayNight.NoActionBar">
+    <!-- Customize your light theme here. -->
+    <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+  </style>
 
-    <style name="Theme.DateRangePickerCustom2" parent="Base.Theme.DateRangePickerCustom2" />
+  <style name="Theme.Daterangepickercustom" parent="Base.Theme.Daterangepickercustom" />
 </resources>
