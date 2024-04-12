@@ -14,8 +14,10 @@ import com.savvi.rangedatepicker.CalendarPickerView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -68,6 +70,19 @@ public class MyCalendarPicker extends DialogFragment {
         //limite maximo de años
         Calendar nextYear = Calendar.getInstance();
         nextYear.add(Calendar.YEAR,10);
+
+
+        Date fechaUno = new Date(2014,3,11);
+        Date fechaDos = new Date(2014,3,12);
+
+        calendar.setLimiteInferior(10);
+        calendar.setLimiteSuperior(10);
+
+        ArrayList<Date> fechas = new ArrayList<>();
+        fechas.add(fechaUno);
+        fechas.add(fechaDos);
+
+
         if(fechasAñadidas.size() != 0){
             for(int i=0;i<fechasAñadidas.size();i++){
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -79,16 +94,17 @@ public class MyCalendarPicker extends DialogFragment {
                 }
 
             }
-
-
             calendar
                     .init(pastYear.getTime(),nextYear.getTime(),new SimpleDateFormat("MMMM yyyy", Locale.getDefault()))
                     .withHighlightedDates(startSelectedDates)
-                    .inMode(CalendarPickerView.SelectionMode.MULTIPLE);
+                    .inMode(CalendarPickerView.SelectionMode.MULTIPLE)
+                    .withDeactivateDates(fechas)
+                    ;
         }else{
             calendar
                     .init(pastYear.getTime(),nextYear.getTime(),new SimpleDateFormat("MMMM yyyy", Locale.getDefault()))
-                    .inMode(CalendarPickerView.SelectionMode.MULTIPLE);
+                    .inMode(CalendarPickerView.SelectionMode.MULTIPLE)
+                    .withDeactivateDates(fechas);
 
         }
 

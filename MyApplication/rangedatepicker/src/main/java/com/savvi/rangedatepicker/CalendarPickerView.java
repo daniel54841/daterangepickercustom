@@ -8,6 +8,7 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,27 @@ import static java.util.Calendar.YEAR;
 public class CalendarPickerView extends RecyclerView {
     private ArrayList<SubTitle> subTitles;
 
+    //Añadido limite para restar a la actualidad
+    private int limiteInferior ;
+    //Añadido limite para sumar a la actualidad
+    private int limiteSuperior ;
+
+    public int getLimiteInferior() {
+        return limiteInferior;
+    }
+
+    public void setLimiteInferior(int limiteInferior) {
+        this.limiteInferior = limiteInferior;
+    }
+
+    public int getLimiteSuperior() {
+        return limiteSuperior;
+    }
+
+    public void setLimiteSuperior(int limiteSuperior) {
+        this.limiteSuperior = limiteSuperior;
+    }
+
     public enum SelectionMode {
         /**
          * Only one date will be selectable.  If there is already a selected date and you select a new
@@ -74,7 +96,7 @@ public class CalendarPickerView extends RecyclerView {
     final List<MonthCellDescriptor> highlightedCells = new ArrayList<>();
     final List<Calendar> selectedCals = new ArrayList<>();
     final List<Calendar> highlightedCals = new ArrayList<>();
-    ArrayList<Integer> deactivatedDates = new ArrayList<>();
+    ArrayList<Date> deactivatedDates = new ArrayList<>();
     private Locale locale;
     private TimeZone timeZone;
     private DateFormat monthNameFormat;
@@ -158,7 +180,7 @@ public class CalendarPickerView extends RecyclerView {
             Calendar nextYear = Calendar.getInstance(timeZone, locale);
             nextYear.add(Calendar.YEAR, 1);
 
-            init(new Date(), nextYear.getTime()) //
+            init(new Date(), nextYear.getTime())
                     .withSelectedDate(new Date());
         }
     }
@@ -335,7 +357,7 @@ public class CalendarPickerView extends RecyclerView {
             return this;
         }
 
-        public FluentInitializer withDeactivateDates(ArrayList<Integer> deactivateDates) {
+        public FluentInitializer withDeactivateDates(ArrayList<Date> deactivateDates) {
             deactivateDates(deactivateDates);
             return this;
         }
@@ -748,7 +770,7 @@ public class CalendarPickerView extends RecyclerView {
 
     private static final String TAG = CalendarPickerView.class.getSimpleName();
 
-    public void deactivateDates(ArrayList<Integer> deactivatedDates) {
+    public void deactivateDates(ArrayList<Date> deactivatedDates) {
         this.deactivatedDates = deactivatedDates;
         validateAndUpdate();
     }
@@ -826,6 +848,11 @@ public class CalendarPickerView extends RecyclerView {
             return new MyHolder(view);
         }
 
+
+
+
+
+
         @Override
         public void onBindViewHolder(@NonNull MyHolder holder, int position) {
             MonthView view = (MonthView) holder.itemView;
@@ -833,11 +860,74 @@ public class CalendarPickerView extends RecyclerView {
             if (monthsReverseOrder) {
                 position = months.size() - position - 1;
             }
-            view.init(months.get(position), cells.getValueAtIndex(position), displayOnly,
-                titleTypeface, dateTypeface, deactivatedDates, subTitles);
+
+
+            initCalendarView(view,position);
+
 
         }
 
+
+
+        private void initCalendarView(MonthView view, int position){
+           //longitud 5 de cells
+
+         /*   for(MonthCellDescriptor cellDescriptor :cells.getValueAtIndex(position).get(0)){
+                Log.i("initCalendarView","2.1. CellDescriptor.getValue(): "+cellDescriptor.getValue());
+            }
+            for(MonthCellDescriptor cellDescriptor :cells.getValueAtIndex(position).get(1)){
+                Log.i("initCalendarView","2.2. CellDescriptor.getValue(): "+cellDescriptor.getValue());
+            }
+            for(MonthCellDescriptor cellDescriptor :cells.getValueAtIndex(position).get(2)){
+                Log.i("initCalendarView","2.2. CellDescriptor.getValue(): "+cellDescriptor.getValue());
+            }
+            for(MonthCellDescriptor cellDescriptor :cells.getValueAtIndex(position).get(3)){
+                Log.i("initCalendarView","2.3. CellDescriptor.getValue(): "+cellDescriptor.getValue());
+            }
+            for(MonthCellDescriptor cellDescriptor :cells.getValueAtIndex(position).get(4)){
+                Log.i("initCalendarView","2.4. CellDescriptor.getValue(): "+cellDescriptor.getValue());
+            }*/
+            //title y date typeface a nulo
+            for(Date date : deactivatedDates){
+                Log.i("initCalendarView","5.1.DeactivatedDate: "+date.toLocaleString());
+            }
+            /*Log.i("initCalendarView","6.Months.size: "+months.size());
+
+            Log.i("initCalendarView","6.Position: "+position);*/
+
+
+            int limiteInferiorLocal = 0 ;
+
+            if(position > limiteInferior){
+                limiteInferiorLocal = position - limiteInferior;
+            }else{
+                limiteInferiorLocal = limiteInferior - position;
+            }
+
+//sin limitacion empieza en 2019 y termina en el mes de empezar pero de 2034
+            //limites inferiores por defecto 5
+            //limite superior por defecto 10
+
+            int limiteSuperiorLocal = position + limiteSuperior;
+
+            //no se puede hacer en un for porque cada vez que se realiza un cambio de mes
+            //este metodo se vuelve a llamar y al hacer el for, se esta haciendo el metodo
+            //muy pesado
+                Log.i("initCalendarView","1.Months.get(position): "+months.get(position));
+
+                view.init(months.get(position), cells.getValueAtIndex(position), displayOnly,
+                        titleTypeface, dateTypeface, deactivatedDates, subTitles);
+
+
+
+
+
+
+
+
+            view.init(months.get(position), cells.getValueAtIndex(position), displayOnly,
+                    titleTypeface, dateTypeface, deactivatedDates, subTitles);
+        }
 
         @Override
         public long getItemId(int position) {

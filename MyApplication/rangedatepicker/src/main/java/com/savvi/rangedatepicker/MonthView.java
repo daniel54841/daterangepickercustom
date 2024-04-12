@@ -3,6 +3,7 @@ package com.savvi.rangedatepicker;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -14,6 +15,7 @@ import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -105,9 +107,9 @@ public class MonthView extends LinearLayout {
     }
 
     public void init(MonthDescriptor month, List<List<MonthCellDescriptor>> cells,
-                     boolean displayOnly, Typeface titleTypeface, Typeface dateTypeface, ArrayList<Integer> deactivatedDates, @Nullable ArrayList<SubTitle> subTitles) {
+                     boolean displayOnly, Typeface titleTypeface, Typeface dateTypeface, ArrayList<Date> deactivatedDates, @Nullable ArrayList<SubTitle> subTitles) {
 
-
+        //TODO:Modificando este metodo
         Logr.d("Initializing MonthView (%d) for %s", System.identityHashCode(this), month);
         long start = System.currentTimeMillis();
         title.setText(month.getLabel());
@@ -126,7 +128,7 @@ public class MonthView extends LinearLayout {
                     CalendarCellView cellView = (CalendarCellView) weekRow.getChildAt(c);
 
                     String cellDate = numberFormatter.format(cell.getValue());
-
+                    Log.i("init","Init MonthView cell: "+cell.getDate());
                     if (!cellView.getDayOfMonthTextView().getText().equals(cellDate)) {
                         cellView.getDayOfMonthTextView().setText(cellDate);
                     }
@@ -138,16 +140,11 @@ public class MonthView extends LinearLayout {
                     }
 
                     cellView.setEnabled(cell.isCurrentMonth());
-                    int dayOfWeek = c + 1;
-                    if (deactivatedDates.contains(dayOfWeek))
-                        cellView.setClickable(false);
-                    else
-                        cellView.setClickable(!displayOnly);
+                    Date dayOfWeek = cell.getDate();
 
-
-                    if (deactivatedDates.contains(dayOfWeek)) {
-                        cellView.setSelectable(cell.isSelectable());
-                        cellView.setSelected(false);
+                    if (!deactivatedDates.contains(dayOfWeek)) {
+                        cellView.setSelectable(true);
+                        cellView.setSelected(cell.isSelected());//esta seleccionado???
                         cellView.setCurrentMonth(cell.isCurrentMonth());
                         cellView.setToday(cell.isToday());
                         cellView.setRangeState(cell.getRangeState());
