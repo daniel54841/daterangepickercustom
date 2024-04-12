@@ -61,7 +61,7 @@ public class MyCalendarPicker extends DialogFragment {
     }
 
 
-    public void initCalendar(List<String> fechasAñadidas){
+    private void initCalendar(List<String> fechasAñadidas){
         //limite minimo de años
         Calendar pastYear = Calendar.getInstance();
         pastYear.add(Calendar.YEAR, -10);
@@ -98,13 +98,13 @@ public class MyCalendarPicker extends DialogFragment {
             @Override
             public void onClick(View view) {
                 Log.i("Info","Fechas seleccionadas: "+calendar.getSelectedDates());
-
-                for(int i=0;i<calendar.getSelectedDates().size();i++){
+                String resultDate = "";
+                for(Date dateSelected : calendar.getSelectedDates()){
                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                    String fecha = sdf.format(calendar.getSelectedDates().get(i));
-                    mTagsFechas.setText(fecha);
+                    String fecha = sdf.format(dateSelected);
+                    resultDate = resultDate+" "+ fecha;
                 }
-
+                mTagsFechas.setText(resultDate);
                 savedState = new Bundle();
                 onSaveInstanceState(savedState);
                 dismiss();
