@@ -110,8 +110,6 @@ public class MonthView extends LinearLayout {
 
     public void init(MonthDescriptor month, List<List<MonthCellDescriptor>> cells,
                      boolean displayOnly, Typeface titleTypeface, Typeface dateTypeface, ArrayList<Date> deactivatedDates, @Nullable ArrayList<SubTitle> subTitles)  {
-
-        //TODO:Modificando este metodo
         Logr.d("Initializing MonthView (%d) for %s", System.identityHashCode(this), month);
         long start = System.currentTimeMillis();
         title.setText(month.getLabel());
@@ -120,8 +118,8 @@ public class MonthView extends LinearLayout {
         final int numRows = cells.size();
         grid.setNumRows(numRows);
         //formateos de las fechas
-        SimpleDateFormat formatFrom = new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
-        SimpleDateFormat formatTo = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+        SimpleDateFormat formatFrom = new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);//formateo inicial
+        SimpleDateFormat formatTo = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);//formato final
         String formattedDateofWeek;
         for (int i = 0; i < 6; i++) {
             CalendarRowView weekRow = (CalendarRowView) grid.getChildAt(i + 1);
@@ -176,7 +174,7 @@ public class MonthView extends LinearLayout {
                     //if-else para formatear las celdas
                     if(formatDeactivatedDates.contains(formattedDateofWeek)){
                         for(String dateFormat : formatDeactivatedDates){
-                            Log.i("","Entra en if");
+                            Log.i("","Entra en for para recorrer formatDeactivatedDates dentro del if formatDeactivatedDates.contains(formattedDateofWeek)");
                             cellView.setSelectable(true);
                             cellView.setSelected(cell.isSelected());//esta seleccionado???
                             cellView.setCurrentMonth(cell.isCurrentMonth());
@@ -197,49 +195,6 @@ public class MonthView extends LinearLayout {
                         cellView.setRangeUnavailable(cell.isUnavailable());
                         cellView.setDeactivated(true);
                     }
-
-
-                   /* for(Date date : deactivatedDates){
-                        try{
-                        //dayOfWeek se corresponde con el dia de la celda que corresponda
-                        //formateo al necesario a dayofWeek
-                            String daisOfWeek = dayOfWeek.toString();
-                            Date reformatDayOfWeek =  formatFrom.parse(daisOfWeek);
-                            String formattedDateofWeek = formatTo.format(reformatDayOfWeek);//valor que hay que usar
-                            //date corresponde con la fecha en el bucle for de todas las fechas desactivadas
-                        //formateo al necesario a day
-                            String dateValue = date.toString();
-                            Date reformatDate =  formatFrom.parse(dateValue);
-                            String formattedDate = formatTo.format(reformatDate).replace("39","20"); //valor que hay que usar
-                            Log.d("info","FormattedDateofWeek: "+formattedDateofWeek+" FormattedDate: "+formattedDate);
-                        //condicion para ponerlo como desactivado o normal
-                            if (!formattedDate.equals(formattedDateofWeek)) {
-                                Log.i("","Entra en if");
-                                cellView.setSelectable(true);
-                                cellView.setSelected(cell.isSelected());//esta seleccionado???
-                                cellView.setCurrentMonth(cell.isCurrentMonth());
-                                cellView.setToday(cell.isToday());
-                                cellView.setRangeState(cell.getRangeState());
-                                cellView.setHighlighted(cell.isHighlighted());
-                                cellView.setRangeUnavailable(cell.isUnavailable());
-                                cellView.setDeactivated(true);
-                            }
-                            else {
-                                Log.i("","Entra en else");
-                                cellView.setSelectable(cell.isSelectable());
-                                cellView.setSelected(cell.isSelected());
-                                cellView.setCurrentMonth(cell.isCurrentMonth());
-                                cellView.setToday(cell.isToday());
-                                cellView.setRangeState(cell.getRangeState());
-                                cellView.setHighlighted(cell.isHighlighted());
-                                cellView.setRangeUnavailable(cell.isUnavailable());
-                                cellView.setDeactivated(false);
-                            }
-                        } catch (ParseException e) {
-                            Log.e("ParseException", "Exception to parse in init: "+e);
-                            throw new RuntimeException(e);
-                        }
-                    }*/
                     cellView.setTag(cell);
 
                     if (null != decorators) {
