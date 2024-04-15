@@ -183,21 +183,11 @@ public class MonthView extends LinearLayout {
                                 cellView.setRangeUnavailable(cell.isUnavailable());
                                 cellView.setDeactivated(false);
                             }
-
-
                         } catch (ParseException e) {
                             Log.e("ParseException", "Exception to parse in init: "+e);
                             throw new RuntimeException(e);
                         }
-
-
-
-
-
-
                     }
-
-
                     cellView.setTag(cell);
 
                     if (null != decorators) {
