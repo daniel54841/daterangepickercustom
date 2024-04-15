@@ -34,6 +34,9 @@ public class MyCalendarPicker extends DialogFragment {
 
     private ArrayList<Date> startSelectedDates = new ArrayList<>();
 
+    private List<Date> selectedDates = new ArrayList<>();
+
+
     public ArrayList<String> datesToAdd = new ArrayList<>();
 
 
@@ -99,6 +102,7 @@ public class MyCalendarPicker extends DialogFragment {
             calendar
                     .init(pastYear.getTime(),nextYear.getTime(),new SimpleDateFormat("MMMM yyyy", Locale.getDefault()))
                     .withHighlightedDates(startSelectedDates)
+                    .withSelectedDates(selectedDates)
                     .inMode(CalendarPickerView.SelectionMode.MULTIPLE)
                     .withDeactivateDates(fechas)
                     ;
@@ -106,6 +110,7 @@ public class MyCalendarPicker extends DialogFragment {
             calendar
                     .init(pastYear.getTime(),nextYear.getTime(),new SimpleDateFormat("MMMM yyyy", Locale.getDefault()))
                     .inMode(CalendarPickerView.SelectionMode.MULTIPLE)
+                    .withSelectedDates(selectedDates)
                     .withDeactivateDates(fechas);
 
         }
@@ -116,6 +121,7 @@ public class MyCalendarPicker extends DialogFragment {
             @Override
             public void onClick(View view) {
                 Log.i("Info","Fechas seleccionadas: "+calendar.getSelectedDates());
+                selectedDates = calendar.getSelectedDates();
                 String resultDate = "";
                 for(Date dateSelected : calendar.getSelectedDates()){
                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
