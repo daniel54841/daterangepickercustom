@@ -236,7 +236,7 @@ public class CalendarPickerView extends RecyclerView {
         fullDateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
         fullDateFormat.setTimeZone(timeZone);
 
-        this.selectionMode = SelectionMode.SINGLE;
+        this.selectionMode = SelectionMode.MULTIPLE;
         // Clear out any previously-selected dates/cells.
         selectedCals.clear();
         selectedCells.clear();
