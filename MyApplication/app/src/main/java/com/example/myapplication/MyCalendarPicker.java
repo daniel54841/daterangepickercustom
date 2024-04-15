@@ -72,8 +72,8 @@ public class MyCalendarPicker extends DialogFragment {
         nextYear.add(Calendar.YEAR,10);
 
         //hay que tener en cuenta que los meses es uno mas ( empiezan en 0 y termina en 11)
-        Date fechaUno = new Date(2024,2,11);
-        Date fechaDos = new Date(2024,2,12);
+        Date fechaUno = new Date(2024,3,11);
+        Date fechaDos = new Date(2024,3,12);
         Date fechaTres = new Date(2024,2,15);
 
         calendar.setLimiteInferior(10);
