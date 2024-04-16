@@ -61,7 +61,6 @@ public class MyCalendarPicker extends DialogFragment {
         calendar = view.findViewById(R.id.calendar_view);
         initCalendar(datesToAdd);
 
-
         return view;
     }
 
