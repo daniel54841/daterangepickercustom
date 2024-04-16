@@ -87,7 +87,7 @@ public class MyCalendarPicker extends DialogFragment {
         fechas.add(fechaDos);
         fechas.add(fechaTres);
 
-
+        calendar.unfixDialogDimens(); //hace el dialogo y el calendario más grande
         if(fechasAñadidas.size() != 0){
             for(int i=0;i<fechasAñadidas.size();i++){
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -104,8 +104,7 @@ public class MyCalendarPicker extends DialogFragment {
                     .withHighlightedDates(startSelectedDates)
                     .withSelectedDates(selectedDates)
                     .inMode(CalendarPickerView.SelectionMode.MULTIPLE)
-                    .withDeactivateDates(fechas)
-                    ;
+                    .withDeactivateDates(fechas);
         }else{
             calendar
                     .init(pastYear.getTime(),nextYear.getTime(),new SimpleDateFormat("MMMM yyyy", Locale.getDefault()))
@@ -114,8 +113,7 @@ public class MyCalendarPicker extends DialogFragment {
                     .withDeactivateDates(fechas);
 
         }
-
-        calendar.scrollToDate(new Date());
+        calendar.scrollToDate(new Date()); //hace scroll al dia actual
 
         acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
